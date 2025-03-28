@@ -1,0 +1,55 @@
+---
+- name: OPS445 Lab8 Configuration file
+  hosts: omelnic
+  user: student
+  become: yes
+  vars:
+    senecaID: 'omelnic'
+
+  tasks:
+    - name: Update Apache package
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted
+
+    - name: Install EPEL repository if not already installed
+      yum:
+        name: epel-release
+        state: present
+      when: ansible_facts.packages['epel-release'] is not defined
+
+    - name: Remove 'tree' package
+      yum:
+        name: tree
+        state: absent
+
+    - name: Set hostname to Seneca ID
+      hostname: 
+        name: "{{ senecaID }}"
+
+    - name: Create a new user with Seneca ID
+      user:
+        name: "{{ senecaID }}"
+        state: present
+        groups: wheel
+        shell: /bin/bash
+
+    - name: Configure passwordless SSH
+      authorized_key:
+        user: "{{ senecaID }}"
+        state: present
+        key: "{{ lookup('file', '/home/omelnic/.ssh/id_rsa.pub') }}"
+
+    - name: Setup directory structure for labs
+      file:
+        path: "/home/{{ senecaID }}/ops445/lab{{ item }}"
+        state: directory
+        owner: "{{ senecaID }}"
+        group: "{{ senecaID }}"
+        mode: '0755'
+      with_sequence: start=1 end=8

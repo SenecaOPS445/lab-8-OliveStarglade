@@ -1,0 +1,40 @@
+
+PLAY [OPS445 Lab8 Configuration file] ******************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [omelnic]
+
+TASK [Update Apache package] ***************************************************
+ok: [omelnic]
+
+TASK [Restart Apache] **********************************************************
+changed: [omelnic]
+
+TASK [Install EPEL repository if not already installed] ************************
+ok: [omelnic]
+
+TASK [Remove 'tree' package] ***************************************************
+ok: [omelnic]
+
+TASK [Set hostname to Seneca ID] ***********************************************
+ok: [omelnic]
+
+TASK [Create a new user with Seneca ID] ****************************************
+changed: [omelnic]
+
+TASK [Configure passwordless SSH] **********************************************
+changed: [omelnic]
+
+TASK [Setup directory structure for labs] **************************************
+changed: [omelnic] => (item=1)
+changed: [omelnic] => (item=2)
+changed: [omelnic] => (item=3)
+changed: [omelnic] => (item=4)
+changed: [omelnic] => (item=5)
+changed: [omelnic] => (item=6)
+changed: [omelnic] => (item=7)
+changed: [omelnic] => (item=8)
+
+PLAY RECAP *********************************************************************
+omelnic                    : ok=9    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
